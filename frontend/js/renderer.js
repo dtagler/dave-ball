@@ -87,7 +87,7 @@ DaveBall.Renderer = (function () {
 
   // Ball trail history — stores last N positions per ball index
   var BALL_TRAIL_LENGTH = 10;
-  var ballTrails = []; // array of arrays: ballTrails[i] = [{x, y}, ...]
+  var ballTrails = {}; // map of ball ID to trail array: ballTrails[id] = [{x, y}, ...]
 
   // Active effect overlay states
   var shieldLevel = 0;
@@ -384,24 +384,26 @@ DaveBall.Renderer = (function () {
   function drawBalls(ctx, balls) {
     if (!balls || !balls.length) return;
 
-    // Update trail history for each ball
-    while (ballTrails.length < balls.length) ballTrails.push([]);
-    if (ballTrails.length > balls.length) ballTrails.length = balls.length;
+    // Track which ball IDs are alive this frame to prune stale trails
+    var activeBallIds = {};
 
     for (var i = 0; i < balls.length; i++) {
       var ball = balls[i];
+      var ballId = ball.id !== undefined ? ball.id : i;
+      activeBallIds[ballId] = true;
       var screenX = ball.x;
       var screenY = ball.y + PLAY_Y_OFFSET;
       var radius = ball.radius || 8;
       var color = ball.color || currentTheme.ball;
 
-      // Record position in trail
-      ballTrails[i].push({ x: screenX, y: screenY });
-      if (ballTrails[i].length > BALL_TRAIL_LENGTH) ballTrails[i].shift();
+      // Record position in trail (keyed by ball ID)
+      if (!ballTrails[ballId]) ballTrails[ballId] = [];
+      ballTrails[ballId].push({ x: screenX, y: screenY });
+      if (ballTrails[ballId].length > BALL_TRAIL_LENGTH) ballTrails[ballId].shift();
 
       // Draw trail afterimages — no shadow blur for trails (perf)
       ctx.shadowBlur = 0;
-      var trail = ballTrails[i];
+      var trail = ballTrails[ballId];
       for (var t = 0; t < trail.length - 1; t++) {
         var progress = (t + 1) / trail.length;
         var trailAlpha = progress * 0.35;
@@ -434,6 +436,11 @@ DaveBall.Renderer = (function () {
 
       // Reset shadow immediately after main ball
       ctx.shadowBlur = 0;
+    }
+
+    // Prune trails for balls that no longer exist
+    for (var trailId in ballTrails) {
+      if (!activeBallIds[trailId]) delete ballTrails[trailId];
     }
   }
 
@@ -672,7 +679,7 @@ DaveBall.Renderer = (function () {
    */
   function resetRegionFades() {
     regionFadeMap = {};
-    ballTrails = [];
+    ballTrails = {};
   }
 
   // ── Fission particle helpers ──
