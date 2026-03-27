@@ -1,0 +1,22 @@
+name: dave-ball
+metadata:
+  template: azd-init
+
+services:
+  backend:
+    project: ./backend
+    host: containerapp
+    image: backend
+    docker:
+      path: ./Dockerfile.prod
+      context: .
+      remoteBuild: true
+
+  frontend:
+    project: ./frontend
+    host: containerapp
+    image: frontend
+    docker:
+      path: ./Dockerfile.aca
+      context: .
+      remoteBuild: true

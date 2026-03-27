@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAVE BALL</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="650"></canvas>
+
+        <!-- Start Screen Overlay -->
+        <div id="overlay-start" class="overlay active">
+            <div class="overlay-content">
+                <h1 class="game-title">DAVE BALL</h1>
+                <p class="game-subtitle">Capture territory, grab power-ups, and avoid the balls!</p>
+                <div class="speed-selector">
+                    <span class="speed-label">SPEED</span>
+                    <div class="speed-buttons">
+                        <button class="speed-btn" data-speed="slow" tabindex="-1">Slow</button>
+                        <button class="speed-btn selected" data-speed="normal" tabindex="-1">Normal</button>
+                        <button class="speed-btn" data-speed="fast" tabindex="-1">Fast</button>
+                    </div>
+                </div>
+                <div class="theme-selector">
+                    <span class="speed-label">THEME</span>
+                    <div class="theme-buttons">
+                        <button class="theme-btn selected" data-theme="default" tabindex="-1">Default</button>
+                        <button class="theme-btn" data-theme="neon" tabindex="-1">Neon</button>
+                        <button class="theme-btn" data-theme="retro" tabindex="-1">Retro</button>
+                        <button class="theme-btn" data-theme="ocean" tabindex="-1">Ocean</button>
+                        <button class="theme-btn" data-theme="lava" tabindex="-1">Lava</button>
+                    </div>
+                </div>
+                <button id="btn-start" class="btn-arcade">Click to Play</button>
+                <button id="btn-highscores" class="btn-arcade btn-highscores-start">High Scores</button>
+                <button id="btn-help" class="btn-arcade btn-highscores-start">❓ How to Play</button>
+                <p class="game-hint">Right-click to toggle line direction</p>
+            </div>
+        </div>
+
+        <!-- High Score Entry Overlay -->
+        <div id="overlay-highscore-entry" class="overlay">
+            <div class="overlay-content">
+                <h2 class="overlay-heading hs-entry-title">NEW HIGH SCORE!</h2>
+                <p class="hs-entry-score" id="hs-entry-score">0</p>
+                <div class="hs-initials-row">
+                    <input class="hs-initial-input" id="hs-init-0" type="text" maxlength="1" autocomplete="off" />
+                    <input class="hs-initial-input" id="hs-init-1" type="text" maxlength="1" autocomplete="off" />
+                    <input class="hs-initial-input" id="hs-init-2" type="text" maxlength="1" autocomplete="off" />
+                </div>
+                <button id="btn-submit-score" class="btn-arcade" disabled>Submit</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard Overlay -->
+        <div id="overlay-leaderboard" class="overlay">
+            <div class="overlay-content">
+                <h2 class="overlay-heading leaderboard-title">HIGH SCORES</h2>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th class="lb-col-rank">RANK</th>
+                            <th class="lb-col-initials">NAME</th>
+                            <th class="lb-col-score">SCORE</th>
+                            <th class="lb-col-level">LVL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body"></tbody>
+                </table>
+                <button id="btn-leaderboard-play" class="btn-arcade">Play Again</button>
+                <button id="btn-leaderboard-menu" class="btn-arcade btn-highscores-start">Main Menu</button>
+            </div>
+        </div>
+
+        <!-- Help / How to Play Overlay -->
+        <div id="overlay-help" class="overlay">
+            <div class="overlay-content help-content">
+                <h2 class="overlay-heading help-title">HOW TO PLAY</h2>
+
+                <div class="help-scroll">
+                    <div class="help-section">
+                        <h3 class="help-section-title">CONTROLS</h3>
+                        <table class="help-table help-controls-table">
+                            <tr><td class="help-key">Left-click</td><td>Draw a boundary line</td></tr>
+                            <tr><td class="help-key">Right-click / Space</td><td>Toggle direction ↔ ↕</td></tr>
+                            <tr><td class="help-key">ESC</td><td>Pause</td></tr>
+                        </table>
+                        <p class="help-goal">Fill 70% of the area to complete each level!</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3 class="help-section-title">POWER-UPS</h3>
+                        <p class="help-section-sub">Capture by boxing them in</p>
+                        <table class="help-table help-items-table">
+                            <tr><td class="help-icon">❤️</td><td class="help-name">Heart</td><td class="help-desc">+1 extra life</td></tr>
+                            <tr><td class="help-icon">⏱️</td><td class="help-name">Clock</td><td class="help-desc">Slow balls 50% for 10s</td></tr>
+                            <tr><td class="help-icon">🛡️</td><td class="help-name">Shield</td><td class="help-desc">Next line is indestructible</td></tr>
+                            <tr><td class="help-icon">⚡</td><td class="help-name">Lightning</td><td class="help-desc">Next line grows 5× speed</td></tr>
+                            <tr><td class="help-icon">💣</td><td class="help-name">Bomb</td><td class="help-desc">Removes one ball</td></tr>
+                            <tr><td class="help-icon">🧊</td><td class="help-name">Freeze</td><td class="help-desc">Freeze all balls for 5s</td></tr>
+                            <tr><td class="help-icon">🔍</td><td class="help-name">Shrink</td><td class="help-desc">Shrink all balls for 10s</td></tr>
+                            <tr><td class="help-icon">🔗</td><td class="help-name">Fusion</td><td class="help-desc">Balls merge on collision for 10s!</td></tr>
+                            <tr><td class="help-icon">🕸️</td><td class="help-name">Web</td><td class="help-desc">Creates slow zones for 15s!</td></tr>
+                            <tr><td class="help-icon">🌀</td><td class="help-name">Portal</td><td class="help-desc">Creates linked portals for 10s!</td></tr>
+                            <tr><td class="help-icon">🕳️</td><td class="help-name">Sinkhole</td><td class="help-desc">Destroys balls that fall in for 10s!</td></tr>
+                            <tr><td class="help-icon">🐍</td><td class="help-name">Snake</td><td class="help-desc">Spawns a snake that hunts balls for 10s!</td></tr>
+                            <tr><td class="help-icon">☢️</td><td class="help-name">Nuke</td><td class="help-desc">Massive blast destroys nearby balls!</td></tr>
+                            <tr><td class="help-icon">🔥</td><td class="help-name">Fire</td><td class="help-desc">Your next line burns balls on contact!</td></tr>
+                            <tr><td class="help-icon">🧪</td><td class="help-name">Acid</td><td class="help-desc">Spawns acid pools that dissolve balls!</td></tr>
+                            <tr><td class="help-icon">🧲</td><td class="help-name">Magnet</td><td class="help-desc">Attracts all balls for 5s!</td></tr>
+                            <tr><td class="help-icon">〰️</td><td class="help-name">Wave</td><td class="help-desc">Balls move in wave patterns for 10s!</td></tr>
+                            <tr><td class="help-icon">🍬</td><td class="help-name">Candy</td><td class="help-desc">+2000 points!</td></tr>
+                            <tr><td class="help-icon">🎲</td><td class="help-name">Mystery</td><td class="help-desc">Random power-up!</td></tr>
+                            <tr class="help-danger"><td class="help-icon">☠️</td><td class="help-name">Skull</td><td class="help-desc">DANGER! Costs 1 life!</td></tr>
+                            <tr class="help-danger"><td class="help-icon">🍄</td><td class="help-name">Grow</td><td class="help-desc">DANGER! Balls grow 3x for 10s!</td></tr>
+                            <tr class="help-danger"><td class="help-icon">⚛️</td><td class="help-name">Fission</td><td class="help-desc">DANGER! Ball collisions create new balls for 10s!</td></tr>
+                            <tr><td class="help-icon">⚓</td><td class="help-name">Anchor</td><td class="help-desc">Stops all balls permanently! (very rare)</td></tr>
+                            <tr class="help-jackpot"><td class="help-icon">💲</td><td class="help-name">Jackpot</td><td class="help-desc">ULTRA RARE! Instantly clears the level!</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="help-section">
+                        <h3 class="help-section-title">FRUITS</h3>
+                        <p class="help-section-sub">Capture for bonus points</p>
+                        <table class="help-table help-fruits-table">
+                            <tr>
+                                <td class="help-fruit">🍒 Cherry <span class="help-pts">+100</span></td>
+                                <td class="help-fruit">🍊 Orange <span class="help-pts">+200</span></td>
+                                <td class="help-fruit">🍎 Apple <span class="help-pts">+300</span></td>
+                            </tr>
+                            <tr>
+                                <td class="help-fruit">🍇 Grape <span class="help-pts">+500</span></td>
+                                <td class="help-fruit">🍓 Strawberry <span class="help-pts">+1000</span></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <button id="btn-help-back" class="btn-arcade btn-help-back">Back</button>
+            </div>
+        </div>
+
+        <!-- Pause Overlay -->
+        <div id="overlay-pause" class="overlay">
+            <div class="overlay-content">
+                <h2 class="overlay-heading">PAUSED</h2>
+                <p class="overlay-sub">Press ESC to resume</p>
+            </div>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div id="overlay-gameover" class="overlay">
+            <div class="overlay-content">
+                <h2 class="overlay-heading gameover-text">GAME OVER</h2>
+                <p class="overlay-score" id="gameover-score">Score: 0</p>
+                <button id="btn-retry" class="btn-arcade">Play Again</button>
+                <button id="btn-gameover-menu" class="btn-arcade btn-highscores-start">Main Menu</button>
+            </div>
+        </div>
+
+        <!-- Win Screen Overlay -->
+        <div id="overlay-win" class="overlay">
+            <div class="overlay-content">
+                <h2 class="overlay-heading win-text">LEVEL COMPLETE!</h2>
+                <div id="score-breakdown" class="score-breakdown" style="display:none;">
+                    <div class="breakdown-rows"></div>
+                    <div class="breakdown-divider"></div>
+                    <div class="breakdown-total breakdown-reveal">
+                        <span class="breakdown-label">Total</span>
+                        <span class="breakdown-total-value"></span>
+                    </div>
+                </div>
+                <p class="overlay-score" id="win-score">Score: 0</p>
+                <button id="btn-next" class="btn-arcade">Next Level</button>
+            </div>
+        </div>
+
+        <button id="btn-mute" class="btn-mute" title="Toggle sound">🔊</button>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/interpolation.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

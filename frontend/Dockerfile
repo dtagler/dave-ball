@@ -1,0 +1,21 @@
+# NOTE: This image uses a floating tag (nginx:1.27-alpine). For production
+# hardening, pin to a specific digest, e.g.:
+#   FROM nginx:1.27-alpine@sha256:<digest>
+FROM nginx:1.27-alpine
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY favicon.svg /usr/share/nginx/html/favicon.svg
+COPY index.html /usr/share/nginx/html/index.html
+COPY css/ /usr/share/nginx/html/css/
+COPY js/ /usr/share/nginx/html/js/
+
+RUN chown -R nginx:nginx /usr/share/nginx/html \
+    && chown -R nginx:nginx /var/cache/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && touch /var/run/nginx.pid \
+    && chown nginx:nginx /var/run/nginx.pid
+USER nginx
+
+EXPOSE 80

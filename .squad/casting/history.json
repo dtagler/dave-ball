@@ -1,0 +1,16 @@
+{
+  "assignments": [
+    {
+      "assignment_id": "alien-001",
+      "universe": "Alien",
+      "created_at": "2026-03-26T19:37:50Z",
+      "agents": [
+        { "name": "Ripley", "role": "Lead" },
+        { "name": "Dallas", "role": "Frontend Dev" },
+        { "name": "Ash", "role": "Backend Dev" },
+        { "name": "Lambert", "role": "Tester" }
+      ],
+      "reason": "Initial team cast for Dave Ball arcade game project"
+    }
+  ]
+}

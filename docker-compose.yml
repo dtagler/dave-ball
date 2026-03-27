@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - highscores_data:/app/data
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1  # ⚠️ Development only — do NOT enable in production (exposes debugger/reloader)
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  playwright:
+    build:
+      context: .
+      dockerfile: tests/e2e/Dockerfile
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - default
+    profiles:
+      - test
+
+volumes:
+  highscores_data:

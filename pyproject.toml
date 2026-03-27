@@ -1,0 +1,20 @@
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = [
+    "physics: Ball movement, wall bounces, line-ball collision tests",
+    "territory: Flood fill, region detection, fill-percentage tests",
+    "line_growth: Line growth mechanics, start/grow/complete/fail line tests",
+    "slow: Tests that take noticeable time (integration, large grids)",
+    "gameplay: End-to-end gameplay scenario tests",
+    "powerups: Power-up spawning, capture, and individual effect tests",
+    "snake: Snake entity spawning, movement, and ball-eating tests",
+    "scoring: Scoring calculations and multi-level progression tests",
+    "obstacles: Obstacle shapes, spawning, and interaction tests",
+    "coverage: Tests filling coverage gaps for fire, acid, serialization, and edge cases",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
