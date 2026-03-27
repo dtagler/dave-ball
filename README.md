@@ -28,6 +28,24 @@ This project was created entirely using [GitHub Copilot CLI](https://docs.github
 
 ![Gameplay](docs/screenshots/gameplay.png)
 
+### Drawing Lines & Dodging Balls
+
+Click to draw boundary lines that grow toward the nearest wall. Complete lines to claim territory — but don't let a ball hit your growing line!
+
+![Lines Growing](docs/screenshots/lines-growing.png)
+
+### Power-ups, Obstacles & Shapes
+
+Higher levels feature obstacle shapes (star, diamond, square, circle, octagon) and power-ups scattered across the arena. Enclose them with your lines to capture their effects.
+
+![Power-ups and Shapes](docs/screenshots/powerups-and-shapes.png)
+
+### Advanced Levels
+
+As you progress, more balls spawn, speeds increase, and multiple obstacles crowd the arena. Strategy matters — plan your lines carefully!
+
+![Advanced Gameplay](docs/screenshots/advanced-gameplay.png)
+
 ---
 
 ## ✨ Features
