@@ -3,6 +3,7 @@
 import logging
 import math
 import os
+import time
 from flask import Flask
 from flask_socketio import SocketIO, emit
 
@@ -258,6 +259,11 @@ def game_loop():
     dt = 1.0 / TICK_RATE
     try:
         while game_state is not None and game_state.state == "playing":
+            tick_start = time.monotonic()
+
+            # Increment tick counter
+            game_state.tick_count += 1
+
             # 0. Decrement fission cooldowns
             for ball in game_state.balls:
                 ball.fission_cooldown = max(0.0, ball.fission_cooldown - dt)
@@ -391,7 +397,8 @@ def game_loop():
             if hasattr(game_state, 'ball_collision_events'):
                 game_state.ball_collision_events.clear()
 
-            socketio.sleep(dt)
+            work_time = time.monotonic() - tick_start
+            socketio.sleep(max(0, dt - work_time))
     except Exception as e:
         logger.error("Game loop error: %s", e)
     finally:

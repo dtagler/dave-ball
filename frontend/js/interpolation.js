@@ -30,33 +30,41 @@ DaveBall.Interpolation = (function () {
    * @returns {Array} Interpolated ball objects
    */
   function interpolateBalls(previousState, currentState, t) {
-    if (!previousState || !previousState.length) {
-      return currentState || [];
-    }
     if (!currentState || !currentState.length) {
-      return previousState;
+      return previousState || [];
+    }
+    if (!previousState || !previousState.length) {
+      return currentState;
     }
 
     // Clamp t to [0, 1]
     t = Math.max(0, Math.min(1, t));
 
-    var result = [];
-    var len = Math.min(previousState.length, currentState.length);
-
-    for (var i = 0; i < len; i++) {
-      var prev = previousState[i];
-      var curr = currentState[i];
-      result.push({
-        x: lerp(prev.x, curr.x, t),
-        y: lerp(prev.y, curr.y, t),
-        radius: curr.radius || prev.radius,
-        color: curr.color || prev.color
-      });
+    // Build lookup by ID from previous state for stable matching
+    var prevById = {};
+    for (var i = 0; i < previousState.length; i++) {
+      if (previousState[i].id !== undefined) {
+        prevById[previousState[i].id] = previousState[i];
+      }
     }
 
-    // If current state has more balls than previous (new ball spawned), include them directly
-    for (var j = len; j < currentState.length; j++) {
-      result.push(currentState[j]);
+    var result = [];
+    for (var j = 0; j < currentState.length; j++) {
+      var curr = currentState[j];
+      // Match by ID if available, fall back to index
+      var prev = (curr.id !== undefined) ? prevById[curr.id] : previousState[j];
+
+      if (prev) {
+        result.push({
+          x: lerp(prev.x, curr.x, t),
+          y: lerp(prev.y, curr.y, t),
+          radius: curr.radius || prev.radius,
+          color: curr.color || prev.color,
+          id: curr.id
+        });
+      } else {
+        result.push(curr);
+      }
     }
 
     return result;

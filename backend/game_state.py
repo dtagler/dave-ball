@@ -9,6 +9,7 @@ from __future__ import annotations
 import logging
 import math
 import random
+import time
 from collections import defaultdict
 from typing import Any, Dict, List, Optional
 
@@ -545,6 +546,8 @@ class GameState:
         self._num_balls = num_balls
         self.speed_multiplier: float = speed_multiplier
 
+        self.tick_count: int = 0
+
         self.play_area: Dict[str, int] = {
             "x": 0,
             "y": 0,
@@ -969,6 +972,8 @@ class GameState:
             "acid_pools": [ap.to_dict() for ap in self.acid_pools],
             "acid_dissolve_events": list(self.acid_dissolve_events),
             "obstacles": [obs.to_dict() for obs in self.obstacles],
+            "server_time": time.monotonic(),
+            "tick_count": self.tick_count,
         }
 
     # ------------------------------------------------------------------

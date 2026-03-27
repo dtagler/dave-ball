@@ -399,7 +399,8 @@ DaveBall.Renderer = (function () {
       ballTrails[i].push({ x: screenX, y: screenY });
       if (ballTrails[i].length > BALL_TRAIL_LENGTH) ballTrails[i].shift();
 
-      // Draw trail afterimages (oldest → newest, increasing opacity)
+      // Draw trail afterimages — no shadow blur for trails (perf)
+      ctx.shadowBlur = 0;
       var trail = ballTrails[i];
       for (var t = 0; t < trail.length - 1; t++) {
         var progress = (t + 1) / trail.length;
@@ -413,7 +414,7 @@ DaveBall.Renderer = (function () {
       }
       ctx.globalAlpha = 1.0;
 
-      // Outer glow
+      // Outer glow — shadow only on the main ball circle
       ctx.shadowColor = color;
       ctx.shadowBlur = 14;
 
@@ -431,6 +432,7 @@ DaveBall.Renderer = (function () {
       ctx.fillStyle = grad;
       ctx.fill();
 
+      // Reset shadow immediately after main ball
       ctx.shadowBlur = 0;
     }
   }
@@ -542,9 +544,9 @@ DaveBall.Renderer = (function () {
 
         ctx.lineWidth = 3;
       } else {
-        // Rainbow linear gradient flowing along the line
+        // Rainbow linear gradient flowing along the line (5 stops for perf)
         var grad = ctx.createLinearGradient(sx1, sy1, sx2, sy2);
-        var numStops = 10;
+        var numStops = 4;
         for (var s = 0; s <= numStops; s++) {
           var t = s / numStops;
           var hue = (hueOffset + t * 360) % 360;

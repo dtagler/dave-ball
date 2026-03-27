@@ -21,11 +21,15 @@ _MAX_SUB_STEPS = 4
 class Ball:
     """A bouncing ball with position, velocity, and radius."""
 
-    __slots__ = ("x", "y", "vx", "vy", "radius", "fission_cooldown")
+    _next_id: int = 0
+
+    __slots__ = ("id", "x", "y", "vx", "vy", "radius", "fission_cooldown")
 
     def __init__(
         self, x: float, y: float, vx: float, vy: float, radius: float = 8.0
     ) -> None:
+        self.id: int = Ball._next_id
+        Ball._next_id += 1
         self.x = x
         self.y = y
         self.vx = vx
@@ -36,6 +40,7 @@ class Ball:
     def to_dict(self) -> Dict[str, float]:
         """JSON-serializable representation."""
         return {
+            "id": self.id,
             "x": self.x,
             "y": self.y,
             "vx": self.vx,

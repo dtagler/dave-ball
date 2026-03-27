@@ -33,6 +33,7 @@ DaveBall.Main = (function () {
   var previousState = null;
   var lastStateTime = 0;
   var serverTickInterval = 33; // ~30Hz
+  var prevServerTime = null;
 
   // Game screen management
   // Valid states: 'start_screen', 'playing', 'paused', 'won', 'lost'
@@ -286,6 +287,17 @@ DaveBall.Main = (function () {
       previousState = latestState;
       latestState = state;
       lastStateTime = performance.now();
+
+      // Compute actual tick interval from server timestamps (EMA-smoothed)
+      if (state.server_time !== undefined && prevServerTime !== null) {
+        var measured = (state.server_time - prevServerTime) * 1000;
+        if (measured > 0 && measured < 200) {
+          serverTickInterval = serverTickInterval * 0.8 + measured * 0.2;
+        }
+      }
+      if (state.server_time !== undefined) {
+        prevServerTime = state.server_time;
+      }
 
       // Update play area shape from server
       Renderer.setShapeVertices(state.shape_vertices);
