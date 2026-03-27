@@ -32,7 +32,7 @@ This project was created entirely using [GitHub Copilot CLI](https://docs.github
 
 Click to draw boundary lines that grow toward the nearest wall. Complete lines to claim territory — but don't let a ball hit your growing line!
 
-![Lines Growing](docs/screenshots/lines-growing.png)
+![Drawing Lines](docs/screenshots/rainbow-line-2.png)
 
 ### Power-ups, Obstacles & Shapes
 

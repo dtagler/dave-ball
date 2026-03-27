@@ -1105,10 +1105,11 @@ DaveBall.Main = (function () {
       });
     }
 
-    // Main Menu buttons (game over + leaderboard)
+    // Main Menu buttons (game over + leaderboard + pause)
     var menuButtons = [
       document.getElementById('btn-gameover-menu'),
-      document.getElementById('btn-leaderboard-menu')
+      document.getElementById('btn-leaderboard-menu'),
+      document.getElementById('btn-pause-menu')
     ];
     for (var mi = 0; mi < menuButtons.length; mi++) {
       if (menuButtons[mi]) {
