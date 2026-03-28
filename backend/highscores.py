@@ -37,9 +37,12 @@ class HighScoreManager:
 
     def save(self) -> None:
         """Write the current leaderboard to disk."""
-        os.makedirs(os.path.dirname(self._filepath), exist_ok=True)
-        with open(self._filepath, "w", encoding="utf-8") as fh:
-            json.dump(self._scores, fh, indent=2)
+        try:
+            os.makedirs(os.path.dirname(self._filepath), exist_ok=True)
+            with open(self._filepath, "w", encoding="utf-8") as fh:
+                json.dump(self._scores, fh, indent=2)
+        except OSError:
+            pass  # non-fatal — scores persist in memory until restart
 
     # ------------------------------------------------------------------
     # Public API
