@@ -193,6 +193,10 @@ DaveBall.Main = (function () {
   function setScreen(screen, data) {
     gameScreen = screen;
 
+    // Show direction button only during gameplay
+    var dirBtn = document.getElementById('btn-direction');
+    if (dirBtn) dirBtn.style.display = (screen === 'playing') ? 'block' : 'none';
+
     switch (screen) {
       case 'start_screen':
         showOverlay('start');
@@ -654,6 +658,22 @@ DaveBall.Main = (function () {
     prevLives = null;
     hadGrowingLines = false;
     Renderer.resetRegionFades();
+  }
+
+  /**
+   * Scale the game container to fit the viewport while maintaining aspect ratio.
+   */
+  function scaleToFit() {
+    var container = document.getElementById('game-container');
+    if (!container) return;
+    var baseW = 800;
+    var baseH = 700;
+    var pad = 10;
+    var availW = window.innerWidth - pad;
+    var availH = window.innerHeight - pad;
+    var scale = Math.min(availW / baseW, availH / baseH, 1);
+    container.style.transform = 'scale(' + scale + ')';
+    container.style.marginTop = '5px';
   }
 
   /**
@@ -1383,6 +1403,13 @@ DaveBall.Main = (function () {
 
     // Listen for line-start events from input module
     canvas.addEventListener('line-start', onLineStart);
+
+    // Responsive scaling — fit game container to viewport
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+    window.addEventListener('orientationchange', function () {
+      setTimeout(scaleToFit, 100);
+    });
 
     // Connect to server
     connectSocket();

@@ -8,7 +8,7 @@ body {
     background: #0a0a1a;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     font-family: "Segoe UI", system-ui, sans-serif;
     color: #e0e0e0;
@@ -25,6 +25,9 @@ body {
     box-shadow:
         0 0 30px rgba(var(--accent-rgb), 0.08),
         0 0 60px rgba(0, 0, 0, 0.5);
+    /* Responsive scaling — anchored to top center, scaled by JS */
+    transform-origin: top center;
+    width: 800px;
 }
 
 #game-canvas {
@@ -717,6 +720,7 @@ body {
 }
 
 .btn-direction {
+    display: none;
     position: absolute;
     bottom: -44px;
     left: 50%;

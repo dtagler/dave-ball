@@ -39,6 +39,19 @@ DaveBall.Input = (function () {
   }
 
   /**
+   * Convert touch event to canvas-relative coordinates.
+   */
+  function touchToCanvasCoords(touch) {
+    var rect = canvas.getBoundingClientRect();
+    var scaleX = canvas.width / rect.width;
+    var scaleY = canvas.height / rect.height;
+    return {
+      x: (touch.clientX - rect.left) * scaleX,
+      y: (touch.clientY - rect.top) * scaleY
+    };
+  }
+
+  /**
    * Initialize input handlers on the given canvas element.
    * @param {HTMLCanvasElement} canvasEl
    */
@@ -71,6 +84,28 @@ DaveBall.Input = (function () {
       });
       canvas.dispatchEvent(event);
     });
+
+    // Touch tap → same as left-click (for mobile/iOS)
+    canvas.addEventListener('touchstart', function (e) {
+      if (!e.touches.length) return;
+      e.preventDefault();
+      var pos = touchToCanvasCoords(e.touches[0]);
+      mousePos = pos;
+
+      if (!isInPlayArea(pos)) return;
+
+      var playX = pos.x;
+      var playY = pos.y - DaveBall.Renderer.PLAY_Y_OFFSET;
+
+      var event = new CustomEvent('line-start', {
+        detail: {
+          x: playX,
+          y: playY,
+          direction: direction
+        }
+      });
+      canvas.dispatchEvent(event);
+    }, { passive: false });
 
     // Right-click → toggle direction
     canvas.addEventListener('contextmenu', function (e) {
