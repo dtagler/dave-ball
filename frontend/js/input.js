@@ -76,6 +76,8 @@ DaveBall.Input = (function () {
     canvas.addEventListener('contextmenu', function (e) {
       e.preventDefault();
       direction = direction === 'vertical' ? 'horizontal' : 'vertical';
+      var dirBtn = document.getElementById('btn-direction');
+      if (dirBtn) dirBtn.textContent = direction === 'vertical' ? '↕ Vertical' : '↔ Horizontal';
     });
 
     // Visual feedback: change cursor based on play area

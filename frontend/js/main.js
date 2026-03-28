@@ -855,6 +855,8 @@ DaveBall.Main = (function () {
         e.preventDefault();
         if (gameScreen === 'playing' && Input) {
           Input.toggleDirection();
+          var dirBtn = document.getElementById('btn-direction');
+          if (dirBtn) dirBtn.textContent = Input.getDirection() === 'vertical' ? '↕ Vertical' : '↔ Horizontal';
         }
         return;
       }
@@ -1026,6 +1028,17 @@ DaveBall.Main = (function () {
       btnMute.addEventListener('click', function () {
         var nowMuted = GameSound.toggleMute();
         btnMute.textContent = nowMuted ? '🔇' : '🔊';
+      });
+    }
+
+    // Direction toggle button (mobile-friendly alternative to right-click)
+    var btnDir = document.getElementById('btn-direction');
+    if (btnDir) {
+      btnDir.addEventListener('click', function (e) {
+        e.preventDefault();
+        Input.toggleDirection();
+        var dir = Input.getDirection();
+        btnDir.textContent = dir === 'vertical' ? '↕ Vertical' : '↔ Horizontal';
       });
     }
 

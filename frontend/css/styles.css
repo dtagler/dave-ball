@@ -715,3 +715,34 @@ body {
 .btn-mute:active {
     transform: scale(0.9);
 }
+
+.btn-direction {
+    position: absolute;
+    bottom: -44px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 6px 20px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.btn-direction:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.btn-direction:active {
+    transform: translateX(-50%) scale(0.95);
+}
