@@ -1064,6 +1064,8 @@ DaveBall.Main = (function () {
     if (btnSubmit) {
       btnSubmit.addEventListener('click', function () {
         if (this.disabled) return;
+        // Disable immediately to prevent double-submit
+        this.disabled = true;
         GameSound.playButtonClick();
         var initials = '';
         for (var i = 0; i < 3; i++) {
@@ -1076,6 +1078,7 @@ DaveBall.Main = (function () {
           level: (pendingHighScoreData && pendingHighScoreData.level) ||
                  (latestState && latestState.level) || 1
         };
+        pendingHighScoreData = null;
         if (socket && socket.connected) {
           socket.emit('submit_score', scoreData);
         }

@@ -4,7 +4,7 @@ import logging
 import math
 import os
 import time
-from flask import Flask
+from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
 from config import BACKEND_HOST, BACKEND_PORT, CORS_ORIGINS, TICK_RATE, MAX_HIGH_SCORES, HIGH_SCORE_FILE, POWERUP_SPAWN_CHANCE, WAVE_AMPLITUDE, WAVE_FREQUENCY, BALL_SPEED, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT
@@ -35,6 +35,7 @@ socketio = SocketIO(
 # ---------------------------------------------------------------------------
 game_state: GameState | None = None
 game_loop_running: bool = False
+_submitted_scores: set[str] = set()  # track (sid, score, level) to prevent duplicates
 high_score_manager = HighScoreManager(
     filepath=os.path.join(os.path.dirname(__file__), HIGH_SCORE_FILE),
     max_entries=MAX_HIGH_SCORES,
@@ -155,6 +156,16 @@ def handle_submit_score(data):
     if score < 0 or level < 1:
         logger.warning("submit_score rejected: score=%d, level=%d", score, level)
         return
+    # Prevent duplicate submissions from the same client
+    dedup_key = (request.sid, score, level)
+    if dedup_key in _submitted_scores:
+        logger.info("submit_score duplicate ignored: %s", dedup_key)
+        emit("score_submitted", {
+            "rank": -1,
+            "scores": high_score_manager.get_scores(),
+        })
+        return
+    _submitted_scores.add(dedup_key)
     rank = high_score_manager.add_score(initials, score, level)
     emit("score_submitted", {
         "rank": rank,
