@@ -10,6 +10,8 @@ This project was created entirely using [GitHub Copilot CLI](https://docs.github
 
 ![Start Screen](docs/screenshots/start-screen.png)
 
+![Gameplay](docs/screenshots/gameplay.gif)
+
 ---
 
 ## 🕹️ How to Play
@@ -32,7 +34,7 @@ This project was created entirely using [GitHub Copilot CLI](https://docs.github
 
 Click to draw boundary lines that grow toward the nearest wall. Complete lines to claim territory — but don't let a ball hit your growing line!
 
-![Drawing Lines](docs/screenshots/rainbow-line-2.png)
+![Drawing Lines](docs/screenshots/line-growing.png)
 
 ### Power-ups, Obstacles & Shapes
 
