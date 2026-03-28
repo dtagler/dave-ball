@@ -642,6 +642,21 @@ DaveBall.Main = (function () {
   }
 
   /**
+   * Reset all interpolation and timing state for a fresh game.
+   */
+  function resetGameTiming() {
+    latestState = null;
+    previousState = null;
+    lastStateTime = 0;
+    prevServerTime = null;
+    serverTickInterval = 33;
+    awaitingFreshState = true;
+    prevLives = null;
+    hadGrowingLines = false;
+    Renderer.resetRegionFades();
+  }
+
+  /**
    * Compute interpolation factor between server states.
    */
   function getInterpolationT() {
@@ -951,12 +966,7 @@ DaveBall.Main = (function () {
         GameSound.playButtonClick();
         readSelectedSpeed();
         setScreen('playing');
-        prevLives = null;
-        hadGrowingLines = false;
-        Renderer.resetRegionFades();
-        latestState = null;
-        previousState = null;
-        awaitingFreshState = true;
+        resetGameTiming();
         GameSound.startMusic();
         if (socket && socket.connected) {
           socket.emit('start_game', { speed_multiplier: speedMultiplier });
@@ -971,12 +981,7 @@ DaveBall.Main = (function () {
         GameSound.playButtonClick();
         readSelectedSpeed();
         setScreen('playing');
-        prevLives = null;
-        hadGrowingLines = false;
-        Renderer.resetRegionFades();
-        latestState = null;
-        previousState = null;
-        awaitingFreshState = true;
+        resetGameTiming();
         GameSound.startMusic();
         if (socket && socket.connected) {
           socket.emit('start_game', { speed_multiplier: speedMultiplier });
@@ -992,13 +997,9 @@ DaveBall.Main = (function () {
         GameSound.playButtonClick();
         clearWinTimers();
         setScreen('playing');
-        prevLives = null;
-        hadGrowingLines = false;
-        Renderer.resetRegionFades();
         var currentLevel = (latestState && latestState.level) || 1;
         var currentScore = lastScore || 0;
-        latestState = null;
-        previousState = null;
+        resetGameTiming();
         GameSound.startMusic();
         if (socket && socket.connected) {
           socket.emit('start_game', {
@@ -1100,13 +1101,9 @@ DaveBall.Main = (function () {
         GameSound.playButtonClick();
         readSelectedSpeed();
         setScreen('playing');
-        prevLives = null;
-        hadGrowingLines = false;
+        resetGameTiming();
         pendingHighScoreData = null;
         highlightRank = -1;
-        Renderer.resetRegionFades();
-        latestState = null;
-        previousState = null;
         GameSound.startMusic();
         if (socket && socket.connected) {
           socket.emit('start_game', { speed_multiplier: speedMultiplier });
