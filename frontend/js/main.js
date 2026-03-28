@@ -520,7 +520,11 @@ DaveBall.Main = (function () {
     // Score was saved — show leaderboard with highlighted rank
     socket.on('score_submitted', function (data) {
       highlightRank = (data && data.rank != null) ? data.rank : -1;
-      if (socket && socket.connected) {
+      var scores = (data && data.scores) || [];
+      if (scores.length > 0) {
+        populateLeaderboard(scores, highlightRank);
+        setScreen('leaderboard');
+      } else if (socket && socket.connected) {
         requestingLeaderboard = true;
         socket.emit('get_high_scores');
       }
