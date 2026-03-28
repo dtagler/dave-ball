@@ -105,10 +105,10 @@ body {
     align-items: center;
     gap: 6px;
     margin-top: 18px;
-    color: #666;
+    color: #aaa;
     text-decoration: none;
     font-family: "Courier New", monospace;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 1px;
     transition: color 0.2s;
 }
