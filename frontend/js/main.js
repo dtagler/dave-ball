@@ -1085,6 +1085,10 @@ DaveBall.Main = (function () {
         pendingHighScoreData = null;
         if (socket && socket.connected) {
           socket.emit('submit_score', scoreData);
+        } else {
+          // Socket not connected — skip to leaderboard anyway
+          console.warn('[DaveBall] Socket not connected, showing leaderboard without submit');
+          setScreen('leaderboard');
         }
       });
     }

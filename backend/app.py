@@ -140,11 +140,14 @@ def handle_get_high_scores(data=None):
 @socketio.on("submit_score")
 def handle_submit_score(data):
     """Add a score to the leaderboard if it qualifies."""
+    scores_response = {"rank": -1, "scores": high_score_manager.get_scores()}
     if not isinstance(data, dict):
+        emit("score_submitted", scores_response)
         return
     initials = data.get("initials", "")
     if not isinstance(initials, str) or not initials.isalpha() or not (2 <= len(initials) <= 3):
         logger.warning("submit_score rejected: invalid initials %r", initials)
+        emit("score_submitted", scores_response)
         return
     initials = initials.upper()
     try:
@@ -152,18 +155,17 @@ def handle_submit_score(data):
         level = int(data.get("level", 1))
     except (TypeError, ValueError):
         logger.warning("submit_score rejected: non-integer score/level")
+        emit("score_submitted", scores_response)
         return
     if score < 0 or level < 1:
         logger.warning("submit_score rejected: score=%d, level=%d", score, level)
+        emit("score_submitted", scores_response)
         return
     # Prevent duplicate submissions from the same client
     dedup_key = (request.sid, score, level)
     if dedup_key in _submitted_scores:
         logger.info("submit_score duplicate ignored: %s", dedup_key)
-        emit("score_submitted", {
-            "rank": -1,
-            "scores": high_score_manager.get_scores(),
-        })
+        emit("score_submitted", scores_response)
         return
     _submitted_scores.add(dedup_key)
     rank = high_score_manager.add_score(initials, score, level)
