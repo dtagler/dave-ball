@@ -35,6 +35,7 @@ socketio = SocketIO(
 # ---------------------------------------------------------------------------
 game_state: GameState | None = None
 game_loop_running: bool = False
+_loop_generation: int = 0  # incremented on each start_game to kill stale loops
 _submitted_scores: set[str] = set()  # track (sid, score, level) to prevent duplicates
 high_score_manager = HighScoreManager(
     filepath=os.path.join(os.path.dirname(__file__), HIGH_SCORE_FILE),
@@ -75,7 +76,7 @@ def handle_start_game(data=None):
     parameters — this creates a fresh GameState at the specified level,
     bypassing the fragile next_level state transition entirely.
     """
-    global game_state, game_loop_running
+    global game_state, game_loop_running, _loop_generation
     speed_multiplier = 1.0
     continue_level = None
     continue_score = 0
@@ -91,12 +92,9 @@ def handle_start_game(data=None):
             continue_score = int(data.get("continue_score", 0))
         except (TypeError, ValueError):
             continue_score = 0
-    # Wait for any old game loop to exit
-    for _ in range(50):
-        if not game_loop_running:
-            break
-        socketio.sleep(0.05)
-    game_loop_running = False  # force-clear in case wait timed out
+    # Kill any running game loop by bumping the generation
+    _loop_generation += 1
+    game_loop_running = False
 
     if continue_level is not None:
         # Next Level: create fresh state at the specified level
@@ -127,7 +125,8 @@ def handle_start_game(data=None):
     game_state.state = "playing"
     game_state.spawn_powerup()  # spawn one power-up at game start
     game_state._maybe_spawn_jackpot()  # roll for rare jackpot
-    socketio.start_background_task(game_loop)
+    my_gen = _loop_generation
+    socketio.start_background_task(game_loop, my_gen)
     emit("game_state", game_state.to_dict())
 
 
@@ -220,7 +219,7 @@ def handle_unpause_game(data=None):
     if game_state is None or game_state.state != "paused":
         return
     game_state.state = "playing"
-    socketio.start_background_task(game_loop)
+    socketio.start_background_task(game_loop, _loop_generation)
     logger.info("Game unpaused")
     emit("game_state", game_state.to_dict())
 
@@ -228,7 +227,7 @@ def handle_unpause_game(data=None):
 @socketio.on("next_level")
 def handle_next_level(data=None):
     """Advance to the next level after winning."""
-    global game_state, game_loop_running
+    global game_state, game_loop_running, _loop_generation
     if game_state is None:
         logger.warning("next_level rejected: game_state is None")
         return
@@ -245,17 +244,12 @@ def handle_next_level(data=None):
         if not math.isfinite(sm):
             sm = game_state.speed_multiplier
         game_state.speed_multiplier = max(0.5, min(3.0, sm))
-    # Wait for old game loop to exit
-    for _ in range(50):
-        if not game_loop_running:
-            break
-        socketio.sleep(0.05)
-    # Force-clear the flag in case the wait timed out (prevents new loop from
-    # returning immediately due to the `if game_loop_running: return` guard).
+    _loop_generation += 1
     game_loop_running = False
     game_state.next_level()
     logger.info("Level %d started", game_state.level)
-    socketio.start_background_task(game_loop)
+    my_gen = _loop_generation
+    socketio.start_background_task(game_loop, my_gen)
     emit("game_state", game_state.to_dict())
 
 
@@ -263,15 +257,13 @@ def handle_next_level(data=None):
 # 30 Hz server tick
 # ---------------------------------------------------------------------------
 
-def game_loop():
+def game_loop(generation):
     """Background task: update physics and broadcast state at TICK_RATE Hz."""
     global game_loop_running
-    if game_loop_running:
-        return  # prevent duplicate loops
     game_loop_running = True
     dt = 1.0 / TICK_RATE
     try:
-        while game_state is not None and game_state.state == "playing":
+        while _loop_generation == generation and game_state is not None and game_state.state == "playing":
             tick_start = time.monotonic()
 
             # Increment tick counter
