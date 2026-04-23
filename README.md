@@ -6,13 +6,13 @@
 
 ### 🎯 Capture territory · 💎 Grab power-ups · ⚡ Dodge the balls!
 
-[![Tests](https://img.shields.io/badge/tests-229%2B%20passing-brightgreen?style=for-the-badge&logo=pytest)](tests/)
-[![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-orange?style=for-the-badge)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=for-the-badge&logo=python)](backend/)
-[![Docker](https://img.shields.io/badge/docker-ready-2496ED?style=for-the-badge&logo=docker)](docker-compose.yml)
-[![Azure](https://img.shields.io/badge/azure-deployed-0078D4?style=for-the-badge&logo=microsoftazure)](infra/)
-[![Playable](https://img.shields.io/badge/status-playable%20now!-success?style=for-the-badge&logo=gamepad)](https://github.com/dtagler/dave-ball)
-[![Built with AI](https://img.shields.io/badge/built%20with-GitHub%20Copilot%20%26%20Squad-purple?style=for-the-badge&logo=github)](https://github.com/bradygaster/squad)
+[![tests](https://img.shields.io/badge/tests-229%2B%20passing-brightgreen?style=flat&logo=pytest&logoColor=white)](tests/)
+[![license](https://img.shields.io/badge/license-CC%20BY--NC%204.0-orange?style=flat)](LICENSE)
+[![python](https://img.shields.io/badge/python-3.11%2B-blue?style=flat&logo=python&logoColor=white)](backend/)
+[![docker](https://img.shields.io/badge/docker-ready-2496ED?style=flat&logo=docker&logoColor=white)](docker-compose.yml)
+[![azure](https://img.shields.io/badge/azure-deployed-0078D4?style=flat&logo=microsoftazure&logoColor=white)](infra/)
+[![status](https://img.shields.io/badge/status-playable%20now!-success?style=flat&logo=gamepad&logoColor=white)](https://github.com/dtagler/dave-ball)
+[![built with](https://img.shields.io/badge/built%20with-Copilot%20%26%20Squad-purple?style=flat&logo=github&logoColor=white)](https://github.com/bradygaster/squad)
 
 </div>
 
