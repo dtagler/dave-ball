@@ -60,3 +60,19 @@
 - main.js handles `state.fire_destroy_events` array and passes `state.fire_active` to direction indicator
 - Fire capture sound uses `playPowerUpCollect()` as fallback — no dedicated fire sound yet
 - index.html How To Play table: fire row added after Nuke row
+
+### Phase 11 — README Branding Enhancement (2025-07-25)
+- Added ASCII art logo at top of README using box-drawing Unicode characters — bold, arcade-style all-caps
+- Logo uses double-line box drawing (`██`, `╗`, `╔`, etc.) for chunky retro aesthetic
+- Added 7 status badges below logo in centered alignment:
+  - Tests badge (229+ passing) in bright green — links to tests/ folder
+  - License badge (CC BY-NC 4.0) in orange — links to LICENSE file
+  - Python badge (3.11+) in blue with Python logo
+  - Docker badge (ready) with Docker whale logo
+  - Azure badge (deployed) with Microsoft Azure logo
+  - Playable status badge (playable now!) in success green with gamepad icon
+  - Built with AI badge (GitHub Copilot & Squad) in purple
+- All badges use `style=for-the-badge` for chunky arcade look, matching the game's aesthetic
+- Three-emoji tagline below title: 🎯 territory · 💎 power-ups · ⚡ balls
+- Kept all existing content intact — additions only at the top
+- Design principle: professional but playful — communicate quality and playability at first glance

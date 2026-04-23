@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120" preserveAspectRatio="xMidYMid meet">
+  <style>
+    .logo-text {
+      font-family: Monaco, 'Courier New', Courier, monospace;
+      font-size: 14px;
+      fill: #00CC00;
+      white-space: pre;
+      text-anchor: middle;
+      dominant-baseline: text-before-edge;
+    }
+  </style>
+  
+  <text class="logo-text" x="400" y="10">██████╗  █████╗ ██╗   ██╗███████╗    ██████╗  █████╗ ██╗     ██╗     </text>
+  <text class="logo-text" x="400" y="30">██╔══██╗██╔══██╗██║   ██║██╔════╝    ██╔══██╗██╔══██╗██║     ██║     </text>
+  <text class="logo-text" x="400" y="50">██║  ██║███████║██║   ██║█████╗      ██████╔╝███████║██║     ██║     </text>
+  <text class="logo-text" x="400" y="70">██║  ██║██╔══██║╚██╗ ██╔╝██╔══╝      ██╔══██╗██╔══██║██║     ██║     </text>
+  <text class="logo-text" x="400" y="90">██████╔╝██║  ██║ ╚████╔╝ ███████╗    ██████╔╝██║  ██║███████╗███████╗</text>
+  <text class="logo-text" x="400" y="110">╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝</text>
+</svg>

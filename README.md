@@ -1,12 +1,5 @@
 <div align="center">
-
-<pre style="color: #00CC00; background: transparent; border: none; font-family: monospace; display: block; width: 100%; text-align: center;">██████╗  █████╗ ██╗   ██╗███████╗    ██████╗  █████╗ ██╗     ██╗     
-██╔══██╗██╔══██╗██║   ██║██╔════╝    ██╔══██╗██╔══██╗██║     ██║     
-██║  ██║███████║██║   ██║█████╗      ██████╔╝███████║██║     ██║     
-██║  ██║██╔══██║╚██╗ ██╔╝██╔══╝      ██╔══██╗██╔══██║██║     ██║     
-██████╔╝██║  ██║ ╚████╔╝ ███████╗    ██████╔╝██║  ██║███████╗███████╗
-╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝</pre>
-
+  <img src="frontend/assets/dave-ball-logo.svg" alt="DAVE BALL Logo" style="width: 100%; max-width: 800px;">
 </div>
 
 <div align="center">
