@@ -20,10 +20,6 @@
 
 > **An arcade territory-claiming game** built with Python and HTML5 Canvas. Draw boundary lines to partition the arena, dodge bouncing balls, and collect 24 different power-ups across endless levels.
 
-### 🤖 Built With
-
-This project was created entirely using [GitHub Copilot CLI](https://docs.github.com/en/copilot) and [Squad](https://github.com/bradygaster/squad) — an AI team orchestration framework that coordinates multiple specialized agents (Ripley 🧠, Dallas 🎨, Ash 🔬, Lambert 📋) to build software collaboratively.
-
 ![Start Screen](docs/screenshots/start-screen.png)
 
 ![Gameplay](docs/screenshots/gameplay.gif)
