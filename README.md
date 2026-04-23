@@ -1,8 +1,31 @@
-# 🎮 Dave Ball
+<div align="center">
 
-> **Capture territory, grab power-ups, and avoid the balls!**
+<pre style="color: #00CC00; background: transparent; border: none; font-family: monospace; display: block; width: 100%; text-align: center;">██████╗  █████╗ ██╗   ██╗███████╗    ██████╗  █████╗ ██╗     ██╗     
+██╔══██╗██╔══██╗██║   ██║██╔════╝    ██╔══██╗██╔══██╗██║     ██║     
+██║  ██║███████║██║   ██║█████╗      ██████╔╝███████║██║     ██║     
+██║  ██║██╔══██║╚██╗ ██╔╝██╔══╝      ██╔══██╗██╔══██║██║     ██║     
+██████╔╝██║  ██║ ╚████╔╝ ███████╗    ██████╔╝██║  ██║███████╗███████╗
+╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝</pre>
 
-An arcade territory-claiming game built with Python and HTML5 Canvas. Draw boundary lines to partition the arena, dodge bouncing balls, and collect 24 different power-ups across endless levels.
+</div>
+
+<div align="center">
+
+### 🎯 Capture territory · 💎 Grab power-ups · ⚡ Dodge the balls!
+
+[![Tests](https://img.shields.io/badge/tests-229%2B%20passing-brightgreen?style=for-the-badge&logo=pytest)](tests/)
+[![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-orange?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=for-the-badge&logo=python)](backend/)
+[![Docker](https://img.shields.io/badge/docker-ready-2496ED?style=for-the-badge&logo=docker)](docker-compose.yml)
+[![Azure](https://img.shields.io/badge/azure-deployed-0078D4?style=for-the-badge&logo=microsoftazure)](infra/)
+[![Playable](https://img.shields.io/badge/status-playable%20now!-success?style=for-the-badge&logo=gamepad)](https://github.com/dtagler/dave-ball)
+[![Built with AI](https://img.shields.io/badge/built%20with-GitHub%20Copilot%20%26%20Squad-purple?style=for-the-badge&logo=github)](https://github.com/bradygaster/squad)
+
+</div>
+
+---
+
+> **An arcade territory-claiming game** built with Python and HTML5 Canvas. Draw boundary lines to partition the arena, dodge bouncing balls, and collect 24 different power-ups across endless levels.
 
 ### 🤖 Built With
 
